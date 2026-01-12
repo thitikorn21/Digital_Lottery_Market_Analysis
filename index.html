@@ -93,21 +93,20 @@
                     <h3 class="text-lg font-medium text-gray-900 mb-2" data-i18n="modal_title">Download Resources</h3>
                     <p class="text-sm text-gray-500 mb-4" data-i18n="modal_desc">Select the files you wish to download.</p>
                     
-                    <ul class="space-y-3">
-                        <!-- 1. Generated PDF Report -->
-                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="generateRealPDF()">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-red-100 text-red-600 p-2 rounded">📄</div>
-                                <div>
-                                    <p class="font-bold text-gray-700 text-sm">Market_Analysis_2025.pdf</p>
-                                    <p class="text-xs text-gray-500">Executive Summary (Generated)</p>
-                                </div>
+            <ul class="space-y-3">
+                    <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="generateRealPDF()">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-red-100 text-red-600 p-2 rounded">📄</div>
+                            <div>
+                                <p class="font-bold text-gray-700 text-sm">Market_Analysis_2025.pdf</p>
+                                <p class="text-xs text-gray-500">Executive Summary (Generated)</p>
                             </div>
-                            <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
-                        </li>
-
-                        <!-- 2. Source File: Thai Lottery Demand Analysis -->
-                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="simulateDownload('Thai_Lottery_Market_Demand_Analysis_2025.pdf')">
+                        </div>
+                        <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
+                    </li>
+                
+                    <a href="downloads/Thai_Lottery_Market_Demand_Analysis_2025.pdf" download target="_blank" class="block">
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200">
                             <div class="flex items-center gap-3">
                                 <div class="bg-purple-100 text-purple-600 p-2 rounded">📑</div>
                                 <div>
@@ -117,9 +116,10 @@
                             </div>
                             <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
                         </li>
-
-                        <!-- 3. Source File: Deep Research -->
-                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="simulateDownload('Deep Research.pdf')">
+                    </a>
+                
+                    <a href="downloads/Deep Research.pdf" download target="_blank" class="block">
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200">
                             <div class="flex items-center gap-3">
                                 <div class="bg-purple-100 text-purple-600 p-2 rounded">📑</div>
                                 <div>
@@ -129,19 +129,19 @@
                             </div>
                             <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
                         </li>
-
-                        <!-- 4. Generated CSV Data -->
-                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="downloadCSV()">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-green-100 text-green-600 p-2 rounded">📊</div>
-                                <div>
-                                    <p class="font-bold text-gray-700 text-sm">Raw_Data_Metrics.csv</p>
-                                    <p class="text-xs text-gray-500">Data Set</p>
-                                </div>
+                    </a>
+                
+                    <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="downloadCSV()">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-green-100 text-green-600 p-2 rounded">📊</div>
+                            <div>
+                                <p class="font-bold text-gray-700 text-sm">Raw_Data_Metrics.csv</p>
+                                <p class="text-xs text-gray-500">Data Set</p>
                             </div>
-                            <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
-                        </li>
-                    </ul>
+                        </div>
+                        <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
+                    </li>
+                </ul>
 
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
