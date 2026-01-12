@@ -284,30 +284,50 @@
     <section id="strategy" class="bg-blue-900 py-16 text-white scroll-mt-20">
         <div class="container mx-auto px-6">
             <h3 class="text-3xl font-bold mb-10 text-center text-amber-400" data-i18n="sec5_title">Roadmap for Market Entry</h3>
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+            
+            <!-- Adjusted Grid: 1 col mobile, 3 cols tablet, 5 cols desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative">
+                
                 <!-- Step 1 -->
                 <div class="bg-blue-800 p-6 rounded-lg border border-blue-700 relative group hover:bg-blue-700 transition duration-300">
-                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900">1</div>
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900 shadow-lg">1</div>
                     <div class="text-4xl mb-4">🔌</div>
                     <h4 class="font-bold text-xl mb-2" data-i18n="step1_title">API Integration</h4>
                     <p class="text-sm text-blue-200" data-i18n="step1_desc">Secure quota allocation partnerships and seamless payment.</p>
                 </div>
-                <div class="hidden md:flex items-center justify-center text-blue-500 text-4xl">➜</div>
+
                 <!-- Step 2 -->
                 <div class="bg-blue-800 p-6 rounded-lg border border-blue-700 relative group hover:bg-blue-700 transition duration-300">
-                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900">2</div>
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900 shadow-lg">2</div>
                     <div class="text-4xl mb-4">🔢</div>
                     <h4 class="font-bold text-xl mb-2" data-i18n="step2_title">Search Engine</h4>
                     <p class="text-sm text-blue-200" data-i18n="step2_desc">Robust "Dream Number" search engine for partial matches.</p>
                 </div>
-                <div class="hidden md:flex items-center justify-center text-blue-500 text-4xl">➜</div>
+
                 <!-- Step 3 -->
                 <div class="bg-blue-800 p-6 rounded-lg border border-blue-700 relative group hover:bg-blue-700 transition duration-300">
-                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900">3</div>
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900 shadow-lg">3</div>
                     <div class="text-4xl mb-4">🎁</div>
                     <h4 class="font-bold text-xl mb-2" data-i18n="step3_title">Retention Loops</h4>
                     <p class="text-sm text-blue-200" data-i18n="step3_desc">"Near Miss" consolation prizes or loyalty points.</p>
                 </div>
+
+                <!-- Step 4: Pre-order System (NEW) -->
+                <div class="bg-blue-800 p-6 rounded-lg border border-blue-700 relative group hover:bg-blue-700 transition duration-300">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900 shadow-lg">4</div>
+                    <div class="text-4xl mb-4">📅</div>
+                    <h4 class="font-bold text-xl mb-2" data-i18n="step4_title">Pre-order System</h4>
+                    <p class="text-sm text-blue-200" data-i18n="step4_desc">Allow VIP members to reserve lucky numbers in advance.</p>
+                </div>
+
+                <!-- Step 5: Smart Notification (NEW) -->
+                <div class="bg-blue-800 p-6 rounded-lg border border-blue-700 relative group hover:bg-blue-700 transition duration-300">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900 shadow-lg">5</div>
+                    <div class="text-4xl mb-4">🔔</div>
+                    <h4 class="font-bold text-xl mb-2" data-i18n="step5_title">Smart Notification</h4>
+                    <p class="text-sm text-blue-200" data-i18n="step5_desc">Alert users instantly when their favorite numbers enter the system.</p>
+                </div>
+
             </div>
         </div>
     </section>
@@ -325,120 +345,32 @@
         // --- TRANSLATION DATA ---
         const i18n = {
             en: {
-                nav_market: "Market Size",
-                nav_demo: "Demographics",
-                nav_behavior: "Behavior",
-                nav_strategy: "Strategy",
-                btn_download: "Download Report",
-                modal_title: "Download Resources",
-                modal_desc: "Select the files you wish to download.",
-                btn_download_short: "Download",
-                btn_close: "Close",
-                hero_tag: "Market Intelligence Report 2025",
-                hero_title_1: "Unlocking the Digital",
-                hero_title_2: "Lottery Economy",
-                hero_desc: "The Thai government lottery is not just a game; it's a cultural institution. With the rapid shift to digital platforms, a massive opportunity exists for platforms that solve the 'overpricing' and 'number search' pain points.",
-                stat_market_val: "Total Market Value",
-                stat_growth: "Digital Growth YoY",
-                stat_users: "Active Digital Users",
-                sec1_title: "The Digital Transformation",
-                sec1_desc: "While physical vendors still dominate, the share of digital sales is aggressively expanding. Users are migrating online for convenience and price certainty.",
-                chart1_title: "Market Share: Physical vs. Digital",
-                chart1_sub: "Current estimation of total ticket volume per draw.",
-                chart2_title: "Digital Adoption Trajectory",
-                chart2_sub: "Projected user growth over 5 years (Millions).",
-                ai_market_title: "Gemini AI Market Analyst",
-                ai_btn_generate: "Generate Insight",
-                ai_placeholder: "Click 'Generate Insight' to have Gemini analyze the market share and growth trends...",
-                dream_desc: "Enter a dream or keyword below, and our Gemini-powered engine will interpret it into 'Lucky Numbers' based on Thai beliefs.",
-                dream_label: "Describe your dream",
-                dream_placeholder: "e.g., I saw a big golden snake...",
-                dream_btn: "Interpret Lucky Numbers",
-                sec2_title: "Who is the 'Digital Lotto' Buyer?",
-                sec2_desc: "The digital demographic skews younger. They are tech-savvy and prefer cashless transactions.",
-                chart3_title: "Age Distribution",
-                chart3_sub: "Percentage of total user base by age group.",
-                card_drivers_title: "Purchase Drivers",
-                driver_1_head: "Searchability",
-                driver_1_desc: "Users want specific numbers.",
-                driver_2_head: "Price Certainty",
-                driver_2_desc: "Strict adherence to 80 THB.",
-                driver_3_head: "Security",
-                driver_3_desc: "No risk of lost tickets.",
-                sec3_title: "Advanced Correlation Analysis",
-                sec3_desc: "Relationship between Income, Purchase Frequency, and Age.",
-                sec3_note: "*Data simulated to represent typical market segments.",
-                sec4_title: "The 'Lucky Rush' Phenomenon",
-                sec4_desc: "Lottery demand spikes massively in the 48 hours preceding the 1st and 16th of every month.",
-                sec4_box_title: "Strategic Implication",
-                sec4_box_desc: "Marketing push notifications are most effective 3 days before the draw.",
-                chart4_title: "Hourly Traffic Volume",
-                chart4_sub: "Traffic intensity relative to draw time.",
-                sec5_title: "Roadmap for Market Entry",
+                // ... existing keys ...
                 step1_title: "API Integration",
                 step1_desc: "Secure quota allocation partnerships and seamless payment.",
                 step2_title: "Search Engine",
                 step2_desc: "Robust 'Dream Number' search engine for partial matches.",
                 step3_title: "Retention Loops",
-                step3_desc: "'Near Miss' consolation prizes or loyalty points."
+                step3_desc: "'Near Miss' consolation prizes or loyalty points.",
+                // New Keys
+                step4_title: "Pre-order System",
+                step4_desc: "Allow VIP members to reserve lucky numbers in advance.",
+                step5_title: "Smart Notification",
+                step5_desc: "Alert users instantly when their favorite numbers arrive."
             },
             th: {
-                nav_market: "ขนาดตลาด",
-                nav_demo: "ผู้ใช้งาน",
-                nav_behavior: "พฤติกรรม",
-                nav_strategy: "กลยุทธ์",
-                btn_download: "ดาวน์โหลดรายงาน",
-                modal_title: "ดาวน์โหลดเอกสาร",
-                modal_desc: "เลือกไฟล์ที่คุณต้องการดาวน์โหลด",
-                btn_download_short: "ดาวน์โหลด",
-                btn_close: "ปิดหน้าต่าง",
-                hero_tag: "รายงานวิเคราะห์การตลาด 2025",
-                hero_title_1: "ปลดล็อกเศรษฐกิจ",
-                hero_title_2: "ลอตเตอรี่ดิจิทัล",
-                hero_desc: "สลากกินแบ่งรัฐบาลไทยไม่ใช่แค่เกม แต่เป็นวัฒนธรรม การเปลี่ยนผ่านสู่ดิจิทัลสร้างโอกาสมหาศาลสำหรับแพลตฟอร์มที่แก้ปัญหา 'หวยแพง' และ 'หาเลขยาก'",
-                stat_market_val: "มูลค่าตลาดรวม",
-                stat_growth: "การเติบโตรายปี",
-                stat_users: "ผู้ใช้งานดิจิทัล",
-                sec1_title: "การเปลี่ยนผ่านสู่ดิจิทัล",
-                sec1_desc: "แม้แผงค้าทั่วไปยังครองตลาด แต่สัดส่วนยอดขายดิจิทัลกำลังขยายตัวอย่างรวดเร็ว ผู้ใช้ย้ายมาออนไลน์เพื่อความสะดวกและความมั่นใจในราคา 80 บาท",
-                chart1_title: "ส่วนแบ่งตลาด: แผงค้า vs ดิจิทัล",
-                chart1_sub: "ประมาณการยอดขายสลากต่องวด",
-                chart2_title: "แนวโน้มการใช้งานดิจิทัล",
-                chart2_sub: "คาดการณ์ผู้ใช้งานใน 5 ปี (ล้านคน)",
-                ai_market_title: "AI นักวิเคราะห์ตลาด",
-                ai_btn_generate: "วิเคราะห์ข้อมูล",
-                ai_placeholder: "คลิก 'วิเคราะห์ข้อมูล' เพื่อให้ Gemini สรุปสถานการณ์ตลาดและแนวโน้มการเติบโต...",
-                dream_desc: "พิมพ์ความฝันหรือคำสำคัญด้านล่าง แล้วให้ Gemini ทำนายเป็น 'เลขเด็ด' ตามความเชื่อไทย",
-                dream_label: "พิมพ์ความฝันของคุณ",
-                dream_placeholder: "เช่น ฝันเห็นงูใหญ่สีทอง...",
-                dream_btn: "ทำนายเลขเด็ด",
-                sec2_title: "ใครคือคนซื้อ 'หวยดิจิทัล'?",
-                sec2_desc: "กลุ่มลูกค้าดิจิทัลมีอายุน้อยกว่าลูกค้าดั้งเดิม เชี่ยวชาญเทคโนโลยี และชอบสังคมไร้เงินสด",
-                chart3_title: "ช่วงอายุผู้ใช้งาน",
-                chart3_sub: "สัดส่วนเปอร์เซ็นต์แบ่งตามกลุ่มอายุ",
-                card_drivers_title: "ปัจจัยการตัดสินใจ",
-                driver_1_head: "ค้นหาเลขได้",
-                driver_1_desc: "ผู้ใช้ต้องการเลขเฉพาะเจาะจง",
-                driver_2_head: "ราคาแน่นอน",
-                driver_2_desc: "ราคา 80 บาทคือจุดแข็งสำคัญ",
-                driver_3_head: "ความปลอดภัย",
-                driver_3_desc: "ไม่มีความเสี่ยงสลากหาย",
-                sec3_title: "การวิเคราะห์ความสัมพันธ์เชิงลึก",
-                sec3_desc: "ความสัมพันธ์ระหว่าง รายได้, ความถี่ในการซื้อ และ อายุ",
-                sec3_note: "*ข้อมูลจำลองเพื่อแสดงภาพรวมตลาด",
-                sec4_title: "ปรากฏการณ์ 'Lucky Rush'",
-                sec4_desc: "ความต้องการซื้อจะพุ่งสูงมากในช่วง 48 ชั่วโมงก่อนหวยออก (วันที่ 1 และ 16)",
-                sec4_box_title: "นัยยะทางกลยุทธ์",
-                sec4_box_desc: "การแจ้งเตือน (Notification) จะได้ผลดีที่สุดในช่วง 3 วันก่อนหวยออก",
-                chart4_title: "ปริมาณการใช้งานรายชั่วโมง",
-                chart4_sub: "ความหนาแน่นของการใช้งานเทียบกับเวลาออกรางวัล",
-                sec5_title: "แผนที่กลยุทธ์สู่ตลาด",
+                // ... existing keys ...
                 step1_title: "เชื่อมต่อ API",
                 step1_desc: "จับมือโควต้าสลากและระบบชำระเงิน (QR PromptPay)",
                 step2_title: "ระบบค้นหาเลข",
                 step2_desc: "ระบบค้นหา 'เลขฝัน' หรือเลขท้ายที่แม่นยำ",
                 step3_title: "ระบบรักษาลูกค้า",
-                step3_desc: "รางวัลปลอบใจหรือคะแนนสะสมสำหรับคนไม่ถูกรางวัล"
+                step3_desc: "รางวัลปลอบใจหรือคะแนนสะสมสำหรับคนไม่ถูกรางวัล",
+                // New Keys
+                step4_title: "ระบบจองล่วงหน้า",
+                step4_desc: "สมาชิก VIP จองเลขเด็ดได้ก่อนใคร ตัดปัญหาหวยหมด",
+                step5_title: "แจ้งเตือนอัจฉริยะ",
+                step5_desc: "แจ้งเตือนทันทีเมื่อเลขที่ชอบเข้าสู่ระบบ"
             }
         };
 
