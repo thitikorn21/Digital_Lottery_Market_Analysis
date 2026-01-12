@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thai Digital Lottery Market Analysis</title>
+    
+    <!-- 1. External Libraries -->
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -16,6 +18,11 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- 2. Configuration File (Must be in the same folder) -->
+    <!-- Create a file named 'config.js' containing: const apiKey = "YOUR_API_KEY"; -->
+    <!-- IMPORTANT: If config.js is missing or blocked, apiKey will be undefined -->
+    <script src="config.js"></script>
 
     <style>
         html { scroll-behavior: smooth; }
@@ -374,9 +381,6 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- CONFIGURATION ---
-        const apiKey = "AIzaSyDfUlpBQYGv0xtQ87HBehpFkpD9DV9wz7M"; 
-
         // --- TRANSLATION DATA ---
         const i18n = {
             en: {
@@ -741,6 +745,12 @@
         // --- GEMINI & UTILS ---
         
         async function callGemini(promptText) {
+            // Check if API key is defined from config.js
+            if (typeof apiKey === 'undefined' || !apiKey) {
+                alert("API Key not found! Please check config.js.");
+                return "Error: API Key missing.";
+            }
+
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             try {
                 const response = await fetch(url, {
@@ -752,7 +762,7 @@
                 return data.candidates[0].content.parts[0].text;
             } catch (error) {
                 console.error(error);
-                return currentLang === 'en' ? "Service unavailable. Please check your API key." : "ระบบไม่พร้อมใช้งานในขณะนี้ โปรดตรวจสอบ API Key";
+                return currentLang === 'en' ? "Service unavailable. Please check your API key." : "ระบบไม่พร้อมใช้งานในขณะนี้ โปรดตรวจสอบ API Key ใน config.js";
             }
         }
 
