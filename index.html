@@ -56,10 +56,12 @@
                     <a href="#strategy" class="hover:text-blue-600 px-3 py-2 rounded-lg transition" data-i18n="nav_strategy">Strategy</a>
                 </div>
                 
-                <!-- Language Toggle Switch -->
+                <!-- Language Toggle Switch (Robust Version) -->
                 <div class="flex items-center gap-2 cursor-pointer select-none" onclick="toggleLanguage()">
                     <span id="label-en" class="text-xs font-bold text-blue-900 transition-colors">EN</span>
+                    <!-- Container for Switch -->
                     <div id="toggle-bg" class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-300 transition-colors duration-300">
+                        <!-- Knob -->
                         <span id="toggle-knob" class="inline-block h-4 w-4 transform rounded-full bg-white shadow-md transition-transform duration-300 translate-x-1"></span>
                     </div>
                     <span id="label-th" class="text-xs font-bold text-gray-400 transition-colors">TH</span>
@@ -83,17 +85,45 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <h3 class="text-lg font-medium text-gray-900 mb-2" data-i18n="modal_title">Download Resources</h3>
                     <p class="text-sm text-gray-500 mb-4" data-i18n="modal_desc">Select the files you wish to download.</p>
+                    
                     <ul class="space-y-3">
+                        <!-- 1. Generated PDF Report -->
                         <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="generateRealPDF()">
                             <div class="flex items-center gap-3">
                                 <div class="bg-red-100 text-red-600 p-2 rounded">📄</div>
                                 <div>
                                     <p class="font-bold text-gray-700 text-sm">Market_Analysis_2025.pdf</p>
-                                    <p class="text-xs text-gray-500">Executive Summary</p>
+                                    <p class="text-xs text-gray-500">Executive Summary (Generated)</p>
                                 </div>
                             </div>
                             <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
                         </li>
+
+                        <!-- 2. Source File: Thai Lottery Demand Analysis -->
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="simulateDownload('Thai_Lottery_Market_Demand_Analysis_2025.pdf')">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-purple-100 text-purple-600 p-2 rounded">📑</div>
+                                <div>
+                                    <p class="font-bold text-gray-700 text-sm truncate max-w-[150px] md:max-w-[200px]">Thai_Lottery_Market...pdf</p>
+                                    <p class="text-xs text-gray-500">Source Document: Strategic Report</p>
+                                </div>
+                            </div>
+                            <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
+                        </li>
+
+                        <!-- 3. Source File: Deep Research -->
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="simulateDownload('Deep Research.pdf')">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-purple-100 text-purple-600 p-2 rounded">📑</div>
+                                <div>
+                                    <p class="font-bold text-gray-700 text-sm">Deep Research.pdf</p>
+                                    <p class="text-xs text-gray-500">Source Document: Demand Analysis</p>
+                                </div>
+                            </div>
+                            <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
+                        </li>
+
+                        <!-- 4. Generated CSV Data -->
                         <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 cursor-pointer border border-gray-200" onclick="downloadCSV()">
                             <div class="flex items-center gap-3">
                                 <div class="bg-green-100 text-green-600 p-2 rounded">📊</div>
@@ -105,6 +135,7 @@
                             <span class="text-blue-600 text-sm font-semibold" data-i18n="btn_download_short">Download</span>
                         </li>
                     </ul>
+
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button type="button" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:w-auto sm:text-sm" onclick="closeDownloadModal()" data-i18n="btn_close">Close</button>
@@ -344,7 +375,7 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- CONFIGURATION ---
-        const apiKey = ""; // API Key injected by environment
+        const apiKey = ""; 
 
         // --- TRANSLATION DATA ---
         const i18n = {
@@ -479,60 +510,60 @@
 
         // --- CORE FUNCTION: TOGGLE LANGUAGE ---
         function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'th' : 'en';
-            const t = i18n[currentLang];
-            
-            // 1. Update Toggle UI
-            const knob = document.getElementById('toggle-knob');
-            const bg = document.getElementById('toggle-bg');
-            const labelEn = document.getElementById('label-en');
-            const labelTh = document.getElementById('label-th');
-
-            if (currentLang === 'th') {
-                // Switch to Thai State
-                knob.classList.remove('translate-x-1');
-                knob.classList.add('translate-x-6');
+            try {
+                currentLang = currentLang === 'en' ? 'th' : 'en';
+                const t = i18n[currentLang];
                 
-                bg.classList.remove('bg-gray-300');
-                bg.classList.add('bg-blue-600');
+                // 1. Update Toggle UI
+                const knob = document.getElementById('toggle-knob');
+                const bg = document.getElementById('toggle-bg');
+                const labelEn = document.getElementById('label-en');
+                const labelTh = document.getElementById('label-th');
 
-                labelEn.classList.remove('text-blue-900');
-                labelEn.classList.add('text-gray-400');
-                
-                labelTh.classList.remove('text-gray-400');
-                labelTh.classList.add('text-blue-900');
-            } else {
-                // Switch back to English State
-                knob.classList.remove('translate-x-6');
-                knob.classList.add('translate-x-1');
-                
-                bg.classList.remove('bg-blue-600');
-                bg.classList.add('bg-gray-300');
-
-                labelEn.classList.remove('text-gray-400');
-                labelEn.classList.add('text-blue-900');
-                
-                labelTh.classList.remove('text-blue-900');
-                labelTh.classList.add('text-gray-400');
-            }
-
-            // 2. Update Text Elements
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (t[key]) {
-                    el.innerText = t[key];
-                } else {
-                    console.warn(`Missing translation for key: ${key}`);
+                if (knob && bg && labelEn && labelTh) {
+                    if (currentLang === 'th') {
+                        // Switch to Thai State
+                        knob.classList.remove('translate-x-1');
+                        knob.classList.add('translate-x-6');
+                        bg.classList.remove('bg-gray-300');
+                        bg.classList.add('bg-blue-600');
+                        labelEn.classList.remove('text-blue-900');
+                        labelEn.classList.add('text-gray-400');
+                        labelTh.classList.remove('text-gray-400');
+                        labelTh.classList.add('text-blue-900');
+                    } else {
+                        // Switch back to English State
+                        knob.classList.remove('translate-x-6');
+                        knob.classList.add('translate-x-1');
+                        bg.classList.remove('bg-blue-600');
+                        bg.classList.add('bg-gray-300');
+                        labelEn.classList.remove('text-gray-400');
+                        labelEn.classList.add('text-blue-900');
+                        labelTh.classList.remove('text-blue-900');
+                        labelTh.classList.add('text-gray-400');
+                    }
                 }
-            });
 
-            // 3. Update Placeholders
-            const dreamInput = document.getElementById('dreamInput');
-            if(dreamInput) dreamInput.placeholder = t.dream_placeholder;
+                // 2. Update Text Elements
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (t[key]) {
+                        el.innerText = t[key];
+                    }
+                });
 
-            // 4. Update Charts
-            updateCharts(currentLang);
-            updatePlotly(currentLang);
+                // 3. Update Placeholders
+                const dreamInput = document.getElementById('dreamInput');
+                if(dreamInput) dreamInput.placeholder = t.dream_placeholder;
+
+                // 4. Update Charts
+                updateCharts(currentLang);
+                updatePlotly(currentLang);
+                
+            } catch(e) {
+                console.error("Language Toggle Error:", e);
+                // Fail silently or handle error
+            }
         }
 
         // --- CHART & LOGIC ---
@@ -666,13 +697,10 @@
                 }
             };
 
-            // Update Market Chart
             if(chartMarket) {
                 chartMarket.data.labels = labels[lang].market.map(wrapLabel);
                 chartMarket.update();
             }
-
-            // Update Demo Chart
             if(chartDemo) {
                 chartDemo.data.labels = labels[lang].demo.map(wrapLabel);
                 chartDemo.update();
@@ -707,9 +735,7 @@
             
             try {
                 Plotly.newPlot('plotly3d', [trace1], layoutPlotly, {responsive: true, displayModeBar: false});
-            } catch(e) {
-                console.log("Plotly not loaded yet");
-            }
+            } catch(e) { console.log("Plotly not loaded"); }
         }
 
         // --- GEMINI & UTILS ---
@@ -798,6 +824,18 @@
             link.href = encodeURI(csv); link.download = "Raw_Data.csv";
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
             setTimeout(closeDownloadModal, 500);
+        }
+
+        // Feature: Simulate Download of Uploaded Files
+        function simulateDownload(filename) {
+            const btn = event.currentTarget.querySelector('span:last-child');
+            const originalText = btn.innerText;
+            btn.innerText = 'Downloading...';
+            
+            setTimeout(() => {
+                alert(`จำลองการดาวน์โหลดไฟล์: ${filename}\n(ในระบบจริงไฟล์นี้จะถูกดึงมาจาก Server ของคุณ)`);
+                btn.innerText = originalText;
+            }, 1000);
         }
     </script>
 </body>
