@@ -76,11 +76,16 @@
                 <span class="text-3xl">🎫</span>
                 <h1 class="text-xl md:text-2xl font-bold text-blue-900">Thai Lotto Analytics</h1>
             </div>
-            <div class="hidden md:flex space-x-6 text-sm font-semibold text-gray-600">
+            <div class="hidden md:flex space-x-6 text-sm font-semibold text-gray-600 items-center">
                 <span>Market Size</span>
                 <span>Demographics</span>
                 <span>Behavior</span>
                 <span>Strategy</span>
+                <!-- Added Download Report Button -->
+                <button onclick="downloadReport()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition shadow-md">
+                    <span>📥</span>
+                    <span>Download Report</span>
+                </button>
             </div>
         </div>
     </header>
@@ -305,6 +310,23 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- UTILITY FUNCTIONS ---
+
+        // Mock Download Function
+        function downloadReport() {
+            // In a real environment, this would link to the PDF file.
+            // Since we generated the PDF alongside this file, we simulate the action.
+            const btn = document.querySelector('button[onclick="downloadReport()"]');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<span>⏳</span><span>Generating PDF...</span>';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            setTimeout(() => {
+                alert("รายงาน 'Deep Research Demand Analysis' ถูกสร้างเรียบร้อยแล้ว!\nคุณสามารถดูไฟล์ PDF ได้ที่แถบ Preview");
+                btn.innerHTML = originalText;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }, 1500);
+        }
 
         // Label Wrapping Logic (16 chars max per line)
         function wrapLabel(str) {
