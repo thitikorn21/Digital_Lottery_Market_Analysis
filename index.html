@@ -12,6 +12,10 @@
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- jsPDF for real PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- 
     PALETTE: "Digital Wealth"
@@ -32,6 +36,10 @@
     -->
 
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Sarabun', sans-serif;
             background-color: #F3F4F6; /* Gray-100 */
@@ -65,6 +73,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .ai-loading {
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -73,22 +91,85 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <span class="text-3xl">🎫</span>
-                <h1 class="text-xl md:text-2xl font-bold text-blue-900">Thai Lotto Analytics</h1>
+                <a href="#" class="flex items-center gap-2 hover:opacity-80 transition">
+                    <span class="text-3xl">🎫</span>
+                    <h1 class="text-xl md:text-2xl font-bold text-blue-900">Thai Lotto Analytics</h1>
+                </a>
             </div>
             <div class="hidden md:flex space-x-6 text-sm font-semibold text-gray-600 items-center">
-                <span>Market Size</span>
-                <span>Demographics</span>
-                <span>Behavior</span>
-                <span>Strategy</span>
-                <!-- Added Download Report Button -->
-                <button onclick="downloadReport()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition shadow-md">
+                <a href="#market" class="hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition">Market Size</a>
+                <a href="#demographics" class="hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition">Demographics</a>
+                <a href="#behavior" class="hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition">Behavior</a>
+                <a href="#strategy" class="hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition">Strategy</a>
+                <button onclick="openDownloadModal()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition shadow-md">
                     <span>📥</span>
                     <span>Download Report</span>
                 </button>
             </div>
         </div>
     </header>
+
+    <!-- DOWNLOAD MODAL -->
+    <div id="downloadModal" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeDownloadModal()"></div>
+
+            <!-- Modal panel -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <span class="text-xl">📂</span>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Download Resources
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500 mb-4">
+                                    Select the files you wish to download to your device.
+                                </p>
+                                
+                                <!-- File List -->
+                                <ul class="space-y-3">
+                                    <!-- File 1: PDF Report -->
+                                    <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition cursor-pointer border border-gray-200" onclick="generateRealPDF()">
+                                        <div class="flex items-center gap-3">
+                                            <div class="bg-red-100 text-red-600 p-2 rounded">📄</div>
+                                            <div>
+                                                <p class="font-bold text-gray-700 text-sm">Market_Analysis_2025.pdf</p>
+                                                <p class="text-xs text-gray-500">Executive Summary & Strategies</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-blue-600 text-sm font-semibold">Download</span>
+                                    </li>
+
+                                    <!-- File 2: CSV Data -->
+                                    <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition cursor-pointer border border-gray-200" onclick="downloadCSV()">
+                                        <div class="flex items-center gap-3">
+                                            <div class="bg-green-100 text-green-600 p-2 rounded">📊</div>
+                                            <div>
+                                                <p class="font-bold text-gray-700 text-sm">Raw_Data_Metrics.csv</p>
+                                                <p class="text-xs text-gray-500">Market Share, Demographics, Growth</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-blue-600 text-sm font-semibold">Download</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="closeDownloadModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- HERO SECTION -->
     <section class="container mx-auto px-6 py-12 md:py-20">
@@ -128,8 +209,8 @@
         </div>
     </section>
 
-    <!-- SECTION 1: MARKET COMPOSITION -->
-    <section class="bg-white py-16 border-t border-gray-100">
+    <!-- SECTION 1: MARKET COMPOSITION (WITH AI INSIGHT) -->
+    <section id="market" class="bg-white py-16 border-t border-gray-100 scroll-mt-20">
         <div class="container mx-auto px-6">
             <div class="mb-12 text-center max-w-2xl mx-auto">
                 <h3 class="text-3xl font-bold text-gray-800 mb-4">The Digital Transformation</h3>
@@ -138,7 +219,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                 <!-- Chart 1: Market Share -->
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                     <h4 class="text-lg font-bold text-gray-700 mb-2">Market Share: Physical vs. Digital</h4>
@@ -161,11 +242,72 @@
                     </div>
                 </div>
             </div>
+
+            <!-- AI Insight Feature -->
+            <div class="max-w-4xl mx-auto mt-8">
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+                    </div>
+                    <div class="flex items-center justify-between mb-4 relative z-10">
+                        <h4 class="text-xl font-bold text-blue-900 flex items-center gap-2">
+                            <span>✨</span> Gemini AI Market Analyst
+                        </h4>
+                        <button onclick="generateMarketInsight()" class="bg-white text-blue-700 px-4 py-2 rounded-full text-sm font-semibold shadow hover:bg-blue-50 transition border border-blue-200">
+                            Generate Insight
+                        </button>
+                    </div>
+                    <div id="market-insight-content" class="text-gray-700 relative z-10 text-sm leading-relaxed">
+                        <p class="italic text-gray-400">Click "Generate Insight" to have Gemini analyze the market share and growth trends...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: AI DREAM INTERPRETER -->
+    <section class="bg-gradient-to-b from-indigo-900 to-blue-900 py-16 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-10">
+                <span class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-amber-400 uppercase bg-blue-800 rounded-full border border-blue-700">
+                    Interactive Demo
+                </span>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500">
+                    AI Dream Interpreter
+                </h3>
+                <p class="text-blue-200 max-w-2xl mx-auto">
+                    Experience the future of lottery engagement. Enter a dream or keyword below, and our Gemini-powered engine will interpret it into "Lucky Numbers" based on Thai beliefs.
+                </p>
+            </div>
+
+            <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-2xl">
+                <div class="mb-6">
+                    <label for="dreamInput" class="block text-sm font-medium text-blue-200 mb-2">Describe your dream (Thai or English)</label>
+                    <textarea id="dreamInput" rows="3" class="w-full px-4 py-3 rounded-xl bg-blue-950/50 border border-blue-700 text-white placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-amber-500 transition resize-none" placeholder="e.g., I saw a big golden snake in my house... (ฝันเห็นงูใหญ่สีทอง)"></textarea>
+                </div>
+                <button onclick="interpretDream()" id="dreamBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform transition hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <span>🔮</span> Interpret Lucky Numbers
+                </button>
+
+                <!-- Result Area -->
+                <div id="dreamResult" class="mt-6 hidden">
+                    <div class="bg-white text-gray-800 p-6 rounded-xl shadow-inner animate-fade-in">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-blue-100 p-3 rounded-full text-2xl">🧞‍♂️</div>
+                            <div class="flex-1">
+                                <h5 class="font-bold text-lg text-blue-900 mb-2">Gemini's Prediction</h5>
+                                <div id="dreamContent" class="prose prose-sm text-gray-600"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- SECTION 2: USER PERSONA -->
-    <section class="bg-gray-50 py-16">
+    <section id="demographics" class="bg-gray-50 py-16 scroll-mt-20">
         <div class="container mx-auto px-6">
             <div class="mb-12">
                 <h3 class="text-3xl font-bold text-gray-800 mb-4">Who is the "Digital Lotto" Buyer?</h3>
@@ -216,7 +358,7 @@
     </section>
 
     <!-- SECTION 3: BEHAVIORAL ANALYSIS (PLOTLY) -->
-    <section class="bg-white py-16 border-t border-gray-100">
+    <section id="behavior" class="bg-white py-16 border-t border-gray-100 scroll-mt-20">
         <div class="container mx-auto px-6">
             <div class="text-center mb-10">
                 <h3 class="text-3xl font-bold text-gray-800">Advanced Correlation Analysis</h3>
@@ -262,12 +404,13 @@
     </section>
 
     <!-- SECTION 5: STRATEGIC ROADMAP (NO MERMAID) -->
-    <section class="bg-blue-900 py-16 text-white">
+    <section id="strategy" class="bg-blue-900 py-16 text-white scroll-mt-20">
         <div class="container mx-auto px-6">
             <h3 class="text-3xl font-bold mb-10 text-center text-amber-400">Roadmap for Market Entry</h3>
             
             <!-- CSS Grid Flowchart -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+            <!-- Changed md:grid-cols-4 to md:grid-cols-5 so all elements (3 steps + 2 arrows) fit in one row -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
                 <!-- Step 1 -->
                 <div class="bg-blue-800 p-6 rounded-lg border border-blue-700 relative group hover:bg-blue-700 transition duration-300">
                     <div class="absolute -top-4 -left-4 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-blue-900">1</div>
@@ -309,23 +452,206 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- UTILITY FUNCTIONS ---
+        // --- API KEY CONFIGURATION ---
+        const apiKey = ""; // The execution environment provides the key at runtime.
 
-        // Mock Download Function
-        function downloadReport() {
-            // In a real environment, this would link to the PDF file.
-            // Since we generated the PDF alongside this file, we simulate the action.
-            const btn = document.querySelector('button[onclick="downloadReport()"]');
-            const originalText = btn.innerHTML;
+        // --- GEMINI API HELPER FUNCTION ---
+        async function callGemini(promptText) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{
+                    parts: [{ text: promptText }]
+                }]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return "Sorry, I couldn't process that request at the moment. Please check your connection or API key.";
+            }
+        }
+
+        // --- FEATURE 1: MARKET INSIGHT ---
+        async function generateMarketInsight() {
+            const btn = document.querySelector('button[onclick="generateMarketInsight()"]');
+            const contentDiv = document.getElementById('market-insight-content');
             
-            btn.innerHTML = '<span>⏳</span><span>Generating PDF...</span>';
+            // UI Loading State
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = 'Analyzing...';
+            btn.disabled = true;
+            contentDiv.innerHTML = '<div class="animate-pulse space-y-2"><div class="h-4 bg-gray-200 rounded w-3/4"></div><div class="h-4 bg-gray-200 rounded w-1/2"></div></div>';
+
+            // Construct Data Context
+            const prompt = `
+                You are a senior data analyst for the Thai Lottery market. 
+                Analyze these metrics:
+                1. Market Share: Physical (65%), Official Digital (25%), Private Digital (10%).
+                2. Growth Trend: Digital users growing 35% YoY.
+                
+                Provide 2 concise, strategic insights for a new business entering this market. 
+                Keep it professional and under 100 words.
+            `;
+
+            const result = await callGemini(prompt);
+            
+            // Render Result
+            contentDiv.innerHTML = marked.parse(result);
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+        }
+
+        // --- FEATURE 2: DREAM INTERPRETER ---
+        async function interpretDream() {
+            const input = document.getElementById('dreamInput').value;
+            if (!input.trim()) return alert("Please describe your dream first!");
+
+            const btn = document.getElementById('dreamBtn');
+            const resultArea = document.getElementById('dreamResult');
+            const contentDiv = document.getElementById('dreamContent');
+
+            // UI Loading State
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = '🔮 Consulting the Stars...';
             btn.classList.add('opacity-75', 'cursor-not-allowed');
             
-            setTimeout(() => {
-                alert("รายงาน 'Deep Research Demand Analysis' ถูกสร้างเรียบร้อยแล้ว!\nคุณสามารถดูไฟล์ PDF ได้ที่แถบ Preview");
-                btn.innerHTML = originalText;
-                btn.classList.remove('opacity-75', 'cursor-not-allowed');
-            }, 1500);
+            const prompt = `
+                You are a Thai Lottery "Dream Interpreter" expert (Mae Mor). 
+                The user dreamt of: "${input}".
+                
+                Please interpret this dream into "Lucky Numbers" based on traditional Thai beliefs.
+                Format the response nicely using Markdown:
+                - **Interpretation:** What the dream symbolizes.
+                - **2-Digit Numbers:** (e.g., 25, 89)
+                - **3-Digit Numbers:** (e.g., 528, 991)
+                - **Advice:** A short fun sentence.
+                Keep the tone mystical but friendly.
+            `;
+
+            const result = await callGemini(prompt);
+
+            // Render Result
+            resultArea.classList.remove('hidden');
+            contentDiv.innerHTML = marked.parse(result);
+            
+            btn.innerHTML = originalBtnText;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+
+        // --- UTILITY FUNCTIONS ---
+
+        // Modal Logic
+        function openDownloadModal() {
+            document.getElementById('downloadModal').classList.remove('hidden');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('downloadModal').classList.add('hidden');
+        }
+
+        // Feature 1: Generate Real PDF
+        async function generateRealPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add Logo/Header
+            doc.setFontSize(22);
+            doc.setTextColor(30, 64, 175); // Blue
+            doc.text("Thai Digital Lottery Market Report", 20, 20);
+            
+            doc.setFontSize(12);
+            doc.setTextColor(100);
+            doc.text("Generated by Thai Lotto Analytics Platform", 20, 30);
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 36);
+            
+            doc.setDrawColor(30, 64, 175);
+            doc.line(20, 45, 190, 45);
+
+            // Section 1: Executive Summary
+            doc.setFontSize(16);
+            doc.setTextColor(0);
+            doc.text("1. Executive Summary", 20, 60);
+            doc.setFontSize(11);
+            doc.setTextColor(60);
+            const summary = "The Thai government lottery is shifting rapidly to digital platforms. Current market value exceeds 180 Billion THB with a 35% YoY growth in digital adoption. Key drivers include price certainty (80 THB) and number searchability.";
+            const splitSummary = doc.splitTextToSize(summary, 170);
+            doc.text(splitSummary, 20, 70);
+
+            // Section 2: Key Metrics
+            doc.setFontSize(16);
+            doc.setTextColor(0);
+            doc.text("2. Key Market Metrics", 20, 110);
+            doc.setFontSize(11);
+            doc.setTextColor(60);
+            doc.text("- Physical Market Share: 65%", 25, 120);
+            doc.text("- Official Digital App (Paotang): 25%", 25, 128);
+            doc.text("- Private Platforms: 10%", 25, 136);
+            doc.text("- Active Digital Users: 19 Million+", 25, 144);
+
+            // Section 3: Recommendations
+            doc.setFontSize(16);
+            doc.setTextColor(0);
+            doc.text("3. Strategic Recommendations", 20, 160);
+            doc.setFontSize(11);
+            doc.text("1. Implement API Integration for real-time quota management.", 25, 170);
+            doc.text("2. Develop 'Dream Number' search engine to capture young demographics.", 25, 178);
+            doc.text("3. Focus on retention loops for non-winning users.", 25, 186);
+
+            // Save the PDF
+            doc.save("Thai_Lottery_Market_Analysis_2025.pdf");
+            
+            // Close modal after short delay
+            setTimeout(closeDownloadModal, 500);
+        }
+
+        // Feature 2: Generate CSV
+        function downloadCSV() {
+            // Define data
+            const data = [
+                ['Category', 'Value', 'Unit'],
+                ['Total Market Value', '180', 'Billion THB'],
+                ['Digital Growth YoY', '35', 'Percent'],
+                ['Active Digital Users', '19', 'Million'],
+                ['Physical Market Share', '65', 'Percent'],
+                ['Official Digital Share', '25', 'Percent'],
+                ['Private Digital Share', '10', 'Percent'],
+                ['Gen Z Users', '15', 'Percent'],
+                ['Millennial Users', '45', 'Percent'],
+                ['Gen X Users', '30', 'Percent'],
+                ['Boomer Users', '10', 'Percent']
+            ];
+
+            // Convert to CSV string
+            let csvContent = "data:text/csv;charset=utf-8,";
+            data.forEach(function(rowArray) {
+                let row = rowArray.join(",");
+                csvContent += row + "\r\n";
+            });
+
+            // Create download link
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Raw_Market_Data_2025.csv");
+            document.body.appendChild(link); // Required for FF
+            
+            link.click();
+            document.body.removeChild(link);
+            
+            // Close modal after short delay
+            setTimeout(closeDownloadModal, 500);
         }
 
         // Label Wrapping Logic (16 chars max per line)
